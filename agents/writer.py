@@ -1,30 +1,34 @@
 from agents.llm import llm
+from database.db import get_last_posts
 
 
 def writer_agent(state):
-    prompt = """
-    You are an expert LinkedIn content writer.
 
-    Write ONE professional LinkedIn post.
+    history = "\n\n".join(get_last_posts())
 
-    Rules:
-    - Domain must be either Artificial Intelligence or Cyber Security.
-    - Choose the topic yourself.
-    - Keep it between 180 and 250 words.
-    - Start with a strong hook.
-    - Use simple and natural English.
-    - Write like an experienced software engineer sharing knowledge.
-    - Do NOT use emojis.
-    - End with a thoughtful question.
-    - Add 5 relevant hashtags.
-    - Return ONLY the LinkedIn post.
-    """
+    prompt = f"""
+You are an expert LinkedIn writer.
+
+Today's Topic:
+AI
+
+Avoid repeating ideas from these previous posts:
+
+{history}
+
+Write a fresh LinkedIn post.
+
+Requirements:
+
+- Professional
+- 200 words max
+- Engaging
+- End with hashtags
+"""
 
     response = llm.invoke(prompt)
 
-    # Always convert response to string
-    post = response.text() if hasattr(response, "text") else str(response.content)
-
     return {
+        "topic": "AI",
         "post": response.text
     }
