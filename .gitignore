@@ -1,1 +1,4 @@
 .env
+database/linkedin.db
+images/
+__pycache__/
