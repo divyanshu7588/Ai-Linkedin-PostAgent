@@ -1,11 +1,11 @@
 from langgraph.graph import StateGraph, START, END
 
 from state import LinkedInState
-from agents.writer import writer
+from agents.writer import writer_agent
 
 builder = StateGraph(LinkedInState)
 
-builder.add_node("writer", writer)
+builder.add_node("writer", writer_agent)
 
 builder.add_edge(START, "writer")
 builder.add_edge("writer", END)

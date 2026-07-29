@@ -1,15 +1,25 @@
 from agents.llm import llm
 
-def writer(state):
-    topic = state["topic"]
+def writer_agent(state):
+    prompt = """
+    You are an expert LinkedIn content writer.
 
-    response = llm.invoke(
-        f"""
-        Write a professional LinkedIn post on {topic}.
+    Write ONE professional LinkedIn post.
 
-        Keep it engaging.
-        """
-    )
+    Rules:
+    - Domain must be either Artificial Intelligence or Cyber Security.
+    - Choose the topic yourself.
+    - Keep it between 180 and 250 words.
+    - Start with a strong hook.
+    - Use simple and natural English.
+    - Write like an experienced software engineer sharing knowledge.
+    - Do NOT use emojis.
+    - End with a thoughtful question.
+    - Add 5 relevant hashtags.
+    - Return ONLY the LinkedIn post.
+    """
+
+    response = llm.invoke(prompt)
 
     return {
         "post": response.content
