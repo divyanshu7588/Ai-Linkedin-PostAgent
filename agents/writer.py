@@ -1,5 +1,6 @@
 from agents.llm import llm
 
+
 def writer_agent(state):
     prompt = """
     You are an expert LinkedIn content writer.
@@ -21,6 +22,9 @@ def writer_agent(state):
 
     response = llm.invoke(prompt)
 
+    # Always convert response to string
+    post = response.text() if hasattr(response, "text") else str(response.content)
+
     return {
-        "post": response.content
+        "post": post
     }

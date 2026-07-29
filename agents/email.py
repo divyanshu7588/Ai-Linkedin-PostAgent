@@ -3,11 +3,16 @@ from email.mime.text import MIMEText
 from config import EMAIL_ADDRESS, EMAIL_PASSWORD, RECEIVER_EMAIL
 
 
-def send_email(post: str):
-    subject = "Today's LinkedIn Post"
+def send_email(post):
 
-    msg = MIMEText(post)
-    msg["Subject"] = subject
+    # Safety check
+    if isinstance(post, list):
+        post = "\n".join(map(str, post))
+    else:
+        post = str(post)
+
+    msg = MIMEText(post, "plain", "utf-8")
+    msg["Subject"] = "Today's LinkedIn Post"
     msg["From"] = EMAIL_ADDRESS
     msg["To"] = RECEIVER_EMAIL
 
