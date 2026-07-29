@@ -26,5 +26,5 @@ def writer_agent(state):
     post = response.text() if hasattr(response, "text") else str(response.content)
 
     return {
-        "post": post
+        "post": response.text
     }

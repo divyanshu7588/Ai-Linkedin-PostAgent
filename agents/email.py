@@ -1,20 +1,30 @@
 import smtplib
 from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+from email.mime.image import MIMEImage
+
 from config import EMAIL_ADDRESS, EMAIL_PASSWORD, RECEIVER_EMAIL
 
 
-def send_email(post):
+def send_email(post, image_path):
 
-    # Safety check
-    if isinstance(post, list):
-        post = "\n".join(map(str, post))
-    else:
-        post = str(post)
+    msg = MIMEMultipart()
 
-    msg = MIMEText(post, "plain", "utf-8")
     msg["Subject"] = "Today's LinkedIn Post"
     msg["From"] = EMAIL_ADDRESS
     msg["To"] = RECEIVER_EMAIL
+
+    body = MIMEText(post, "plain", "utf-8")
+    msg.attach(body)
+
+    with open(image_path, "rb") as f:
+        img = MIMEImage(f.read())
+        img.add_header(
+            "Content-Disposition",
+            "attachment",
+            filename="linkedin.png"
+        )
+        msg.attach(img)
 
     with smtplib.SMTP("smtp.gmail.com", 587) as server:
         server.starttls()
