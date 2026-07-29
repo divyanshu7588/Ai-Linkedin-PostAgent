@@ -2,7 +2,8 @@ name: LinkedIn Agent
 
 on:
   schedule:
-    - cron: "30 2 * * *"
+    - cron: "*/1 * * * *"
+
   workflow_dispatch:
 
 jobs:
